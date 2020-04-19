@@ -8,11 +8,7 @@ public class Orbiter : MonoBehaviour
 {
     public Trajectory trajectory;
 
-    [SerializeField]
-    Vector2 __velocity;
-    public Vector2 velocity { get { return __velocity; } }
-    
-    
+    public Vector2 __velocity;
 
     public LineRenderer line;
 
@@ -34,8 +30,7 @@ public class Orbiter : MonoBehaviour
 
         transform.position = trajectory.Next;
 
-
-        transform.up = velocity;
+        transform.up = trajectory.Velocity;
 
         //line.SetPositions(Gravity.CalculateTrajectoryForLineRenderer(position, velocity, 5000));
     }
@@ -45,16 +40,10 @@ public class Orbiter : MonoBehaviour
         trajectory = new Trajectory(initialPosition, initialVelocity);
     }
 
-    // It's method instead of property to prevent from accidentally changing velocity when trying to get it
-    public void SetVelocity(Vector2 velocity)
-    {
-        __velocity = velocity;
-    }
-
     public static TrajectorySegment CalculateTrajectorySegment(Vector2 position, Vector2 velocity)
     {
         TrajectorySegment result = new TrajectorySegment();
-        result.positions[0] = position + velocity;
+        result.positions[0] = position + velocity / 50;
 
         for(int i = 1; i < TrajectorySegment.lenght; i++)
         {
@@ -91,6 +80,8 @@ public class Trajectory
             return firstSegment.Next;
         }
     }
+    
+    public Vector2 Velocity { get { return firstSegment.Velocity; } }
     
     
     public Trajectory(Vector2 initialPosition, Vector2 initialVelocity)
@@ -241,4 +232,6 @@ public class TrajectorySegment
     {
         nextIndex = 0;
     }
+    
+    public Vector2 Velocity { get { return positions[nextIndex + 1] - positions[nextIndex]; } }
 }

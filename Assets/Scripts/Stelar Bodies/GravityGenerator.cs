@@ -17,15 +17,17 @@ public class GravityGenerator : MonoBehaviour
     void Awake()
     {
         position__ = transform.position;
+
+        if(massFromSize)
+            mass = Mathf.PI * transform.localScale.x * transform.localScale.x / 4f;
+
+        Gravity.AddGenerator(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if(massFromSize)
-            mass = Mathf.PI * transform.GetChild(0).localScale.x * transform.GetChild(0).localScale.x / 4f;
         
-        Gravity.AddGenerator(this);
     }
 
     // Update is called once per frame
