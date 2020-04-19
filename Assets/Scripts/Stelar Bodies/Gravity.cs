@@ -26,39 +26,6 @@ public class Gravity : MonoBehaviour
         __G = G__;
     }
     
-    ///<summary>
-    /// Index 0 is literally passed position
-    ///</summary>
-    public static Vector2[] CalculateTrajectory(Vector2 position, Vector2 velocity, int steps) // <DEPRECATED>
-    {
-        Vector2[] result = new Vector2[steps + 1];
-        result[0] = position;
-        
-        for(int i = 0; i < steps; i++)
-        {
-            result[i+1] = result[i] + velocity * Time.deltaTime;
-            velocity += SampleGravityField(position);
-        }
-        
-        return result;
-    }
-    ///<summary>
-    /// Index 0 is literally passed position
-    ///</summary>
-    public static Vector3[] CalculateTrajectoryForLineRenderer(Vector2 position, Vector2 velocity, int steps) // <DEPRECATED>
-    {
-        Vector3[] result = new Vector3[steps + 1];
-        result[0] = position;
-        
-        for(int i = 0; i < steps; i++)
-        {
-            result[i+1] = result[i] + Useful.Vector2to3(velocity) * Time.deltaTime;// * 5f;
-            velocity += SampleGravityField(result[i]) * Time.fixedDeltaTime;// * 5f;
-        }
-        
-        return result;
-    }
-    
     public static Vector2 SampleGravityField(Vector2 position)
     {
         Vector2 acceleration = Vector2.zero;
@@ -73,7 +40,9 @@ public class Gravity : MonoBehaviour
             // acceleration.x += direction.x * (generator.mass * G / direction.sqrMagnitude);
             // acceleration.y += direction.y * (generator.mass * G / direction.sqrMagnitude);
         }
-        
+
+        Debug.Log($"acceleration for {position} -> {acceleration}");
+
         return acceleration;
     }
     
