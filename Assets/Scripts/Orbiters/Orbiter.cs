@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Orbiter : MonoBehaviour
 {
     public Trajectory trajectory;
@@ -19,6 +17,7 @@ public class Orbiter : MonoBehaviour
 
         SetInMotion(transform.position, __velocity);
 
+        
         line.SetPositions(trajectory.GetTrajectoryPositions3D(10, transform.position));
     }
 
@@ -39,6 +38,7 @@ public class Orbiter : MonoBehaviour
     {
         trajectory = new Trajectory(initialPosition, initialVelocity);
     }
+    
 
     public static TrajectorySegment CalculateTrajectorySegment(Vector2 position, Vector2 velocity)
     {
@@ -48,13 +48,10 @@ public class Orbiter : MonoBehaviour
         for(int i = 1; i < TrajectorySegment.lenght; i++)
         {
             velocity += Gravity.SampleGravityField(result.positions[i - 1]) / 50;
-            Debug.Log(velocity);
             result.positions[i] = result.positions[i - 1] + velocity / 50;
         }
         
         result.endVelocity = velocity;
-
-        Debug.Log("Generated some Trajectory Segment for you senpai owo");
 
         return result;
     }
@@ -233,5 +230,13 @@ public class TrajectorySegment
         nextIndex = 0;
     }
     
-    public Vector2 Velocity { get { return positions[nextIndex + 1] - positions[nextIndex]; } }
+    public Vector2 Velocity 
+    {
+        get
+        {
+            if(nextIndex >= 749)
+                return endVelocity;
+            return positions[nextIndex + 1] - positions[nextIndex]; 
+        }
+    }
 }

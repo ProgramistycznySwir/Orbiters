@@ -28,8 +28,6 @@ public class Gravity : MonoBehaviour
     
     public static Vector2 SampleGravityField(Vector2 position)
     {
-        Debug.Log($"Position: {position}");
-
         Vector2 acceleration = Vector2.zero;
         Vector2 direction;
         
@@ -39,13 +37,9 @@ public class Gravity : MonoBehaviour
             // if(direction.sqrMagnitude < 25f)
             //     continue;
             acceleration += direction.normalized * (generator.mass * G / direction.sqrMagnitude);
-
-            Debug.Log($"One Generator: {direction.normalized * (generator.mass * G / direction.sqrMagnitude)}");
             // acceleration.x += direction.x * (generator.mass * G / direction.sqrMagnitude);
             // acceleration.y += direction.y * (generator.mass * G / direction.sqrMagnitude);
         }
-
-        Debug.Log($"acceleration for {position} -> {acceleration}");
 
         return acceleration;
     }
@@ -53,7 +47,5 @@ public class Gravity : MonoBehaviour
     public static void AddGenerator(GravityGenerator generator)
     {
         generators.Push(generator);
-
-        Debug.Log("BEEP BOOP LOGGED NEW GENERATOR OWO");
     }
 }
